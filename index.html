@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador de Gestión de Memoria - Hacker Style</title>
+    <link rel="stylesheet" href="public/css/styles.css">
+    <link rel="shortcut icon" href="public/icon/favicon.ico" type="image/x-icon">
+</head>
+
+<body>
+    <canvas id="matrix-bg"></canvas>
+
+    <header>
+        <div class="terminal-bar">
+            <div class="terminal-button close"></div>
+            <div class="terminal-button minimize"></div>
+            <div class="terminal-button maximize"></div>
+        </div>
+        <h1>SIMULADOR DE GESTIÓN DE MEMORIA</h1>
+        <div class="subtitle">Sistemas Operativos 2025 - Universidad de la Cuenca del Plata</div>
+        <div class="subtitle">Grupo: José Fernando Usui, Mariano Acosta y Santino Calamari</div>
+    </header>
+
+    <div class="container">
+
+        <!-- NUEVA TABLA DE ALGORITMOS -->
+        <div class="panel">
+            <div class="panel-title">ALGORITMOS DE ASIGNACIÓN DE MEMORIA</div>
+            <table class="process-table">
+                <thead>
+                    <tr>
+                        <th>Algoritmo</th>
+                        <th>Estrategia</th>
+                        <th>Eficiencia</th>
+                        <th>Fragmentación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>First Fit</td>
+                        <td>Primer hueco suficiente</td>
+                        <td>Alta</td>
+                        <td>Externa (inicio)</td>
+                    </tr>
+                    <tr>
+                        <td>Best Fit</td>
+                        <td>Hueco más justo posible</td>
+                        <td>Media</td>
+                        <td>Externa (huecos pequeños)</td>
+                    </tr>
+                    <tr>
+                        <td>Worst Fit</td>
+                        <td>Hueco más grande</td>
+                        <td>Baja</td>
+                        <td>Interna o desperdicio</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <!-- FIN NUEVA TABLA -->
+
+        <div class="panel">
+            <div class="panel-title">CONFIGURACIÓN DEL SISTEMA</div>
+
+            <div class="controls">
+                <div class="control-group">
+                    <label for="memorySize">Tamaño de Memoria (KB)</label>
+                    <input type="number" id="memorySize" value="1024" min="64" max="4096">
+                </div>
+
+                <div class="control-group">
+                    <label for="algorithm">Algoritmo de Asignación</label>
+                    <select id="algorithm">
+                        <option value="firstFit">First Fit</option>
+                        <option value="bestFit">Best Fit</option>
+                        <option value="worstFit">Worst Fit</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="processSpeed">Velocidad de Simulación</label>
+                    <input type="range" id="processSpeed" min="1" max="10" value="5">
+                </div>
+
+                <div class="control-group">
+                    <label for="initSimulation">Inicializar Simulación</label>
+                    <button id="initSimulation">INICIAR SISTEMA</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">ESTADO DE LA MEMORIA</div>
+            <div class="memory-container">
+                <div>Memoria total: <span id="totalMemory">1024</span> KB | Memoria libre:
+                    <span id="freeMemory">1024</span> KB
+                </div>
+                <div class="memory-visualization" id="memoryMap">
+                    <!-- Los bloques de memoria se generarán dinámicamente -->
+                </div>
+            </div>
+        </div>
+
+        <div class="panel" style="display: flex; flex-direction: column; height: 100%;">
+            <div class="panel-title">GESTIÓN DE PROCESOS</div>
+
+            <div style="display: flex; gap: 20px; flex: 1; overflow: hidden;">
+
+                <!-- Columna de controles -->
+                <div class="controls" style="flex: 0 0 300px;">
+                    <div class="control-group">
+                        <label for="processSize">Tamaño del Proceso (KB)</label>
+                        <input type="number" id="processSize" value="64" min="8" max="256">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="processDuration">Duración (ciclos)</label>
+                        <input type="number" id="processDuration" value="5" min="1" max="20">
+                    </div>
+
+                    <div class="control-group">
+                        <label for="addProcess">Crear Nuevo Proceso</label>
+                        <button id="addProcess">EJECUTAR PROCESO</button>
+                    </div>
+
+                    <div class="control-group">
+                        <label for="autoGenerate">Generación Automática</label>
+                        <button id="autoGenerate">ACTIVAR AUTO-PROCESOS</button>
+                    </div>
+                </div>
+
+                <!-- Columna de tabla -->
+                <div style="flex: 1; display: flex; flex-direction: column;">
+                    <div class="table-scroll" style="flex: 1; overflow-y: auto;">
+                        <table class="process-table">
+                            <thead>
+                                <tr>
+                                    <th>PID</th>
+                                    <th>Tamaño (KB)</th>
+                                    <th>Estado</th>
+                                    <th>Dirección</th>
+                                    <th>Duración</th>
+                                </tr>
+                            </thead>
+                            <tbody id="processTableBody">
+                                <!-- Procesos aquí -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        <div class="panel">
+            <div class="panel-title">REGISTRO DEL SISTEMA</div>
+            <div class="log-container" id="systemLog">
+                <div class="log-entry"><span class="log-time">[00:00:00]</span>
+                    <span class="log-info">Sistema inicializado. Memoria lista para asignar procesos.</span>
+                </div>
+                <div class="log-entry"><span class="log-time">[00:00:00]</span>
+                    <span class="log-info">Algoritmo First Fit seleccionado para la asignación de memoria.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="public/js/main.js"></script>
+</body>
+
+</html>
