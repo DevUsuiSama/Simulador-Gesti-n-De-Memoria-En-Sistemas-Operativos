@@ -112,6 +112,30 @@ h1 {
     grid-column: 1 / -1;
 }
 
+@media (max-width: 768px) {
+    .fila-1 {
+        grid-column: auto;
+    }
+
+    .main-panel {
+        grid-column: auto;
+    }
+}
+
+.registro-de-procesos {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    flex: 1;
+    overflow: hidden;
+}
+
+@media (max-width: 768px) {
+    .registro-de-procesos {
+        flex-direction: column;
+    }
+}
+
 .panel {
     background-color: var(--panel-bg);
     border: 1px solid var(--accent-blue);
@@ -269,11 +293,17 @@ button:active {
 }
 
 /* Tabla de procesos */
+.table-container {
+    overflow-x: auto;
+}
+
 .process-table {
-    width: 100%;
     border-collapse: collapse;
     margin-top: 1.2rem;
     font-size: 0.9rem;
+    width: 100%;
+    /* Cambiado a 100% para que se ajuste al contenedor */
+    overflow-wrap: normal;
 }
 
 .process-table th,
@@ -281,6 +311,8 @@ button:active {
     border: 1px solid var(--accent-blue);
     padding: 0.7rem;
     text-align: left;
+    white-space: nowrap;
+    /* Añadido para prevenir que el texto se ajuste y forzar el scroll */
 }
 
 .process-table th {
